@@ -16,10 +16,10 @@ pub async fn get_secret_value(region: &'static str, secret_name: &str) -> anyhow
     tracing::info!("4/9 got secret value by client");
 
     let secret_id = get_secret_value.secret_id(secret_name);
-    tracing::info!("5/9 set secret id from value");
+    tracing::info!("5/9 set secret id from value: {:?}", secret_id);
 
     let sent = secret_id.send().await;
-    tracing::info!("6/9 send secret id");
+    tracing::info!("6/9 send secret id: {:?}", sent);
 
     let resp = sent.unwrap_or(GetSecretValueOutput::builder().build());
     tracing::info!("7/9 built response from sent id");
