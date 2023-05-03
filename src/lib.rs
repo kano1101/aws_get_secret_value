@@ -5,7 +5,7 @@ use reqwest::header::{HeaderValue, AUTHORIZATION};
 use serde_json::Value;
 
 #[allow(dead_code)]
-async fn send_request_with_token(token: &str) -> anyhow::Result<reqwest::Response> {
+pub async fn send_request_with_token(token: &str) -> anyhow::Result<reqwest::Response> {
     // トークンをAuthorizationヘッダーに含める
     let client = reqwest::Client::new();
     let mut headers = reqwest::header::HeaderMap::new();
@@ -26,7 +26,11 @@ async fn send_request_with_token(token: &str) -> anyhow::Result<reqwest::Respons
 
 // secret_keyはクライアントシークレットのこと
 #[allow(dead_code)]
-fn get_secret_hash(username: &str, secret_key: &str, client_id: &str) -> anyhow::Result<String> {
+pub fn get_secret_hash(
+    username: &str,
+    secret_key: &str,
+    client_id: &str,
+) -> anyhow::Result<String> {
     use base64::Engine as _;
     use hmac::{Hmac, Mac};
     use sha2::Sha256;
@@ -42,7 +46,7 @@ fn get_secret_hash(username: &str, secret_key: &str, client_id: &str) -> anyhow:
 }
 
 #[allow(dead_code)]
-async fn get_id_token(
+pub async fn get_id_token(
     username: &str,
     password: &str,
     secret_hash: &str,
