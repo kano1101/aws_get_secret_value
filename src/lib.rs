@@ -2,10 +2,10 @@ use aws_config::meta::region::RegionProviderChain;
 use aws_sdk_secretsmanager::Client;
 use serde_json::Value;
 
-pub async fn get_secret_env_values_from_keys(
+pub async fn get_secret_env_values_from_keys<'a>(
     region: &'static str,
-    secret_name: &str,
-    env_keys: Vec<&str>,
+    secret_name: &'a str,
+    env_keys: Vec<&'a str>,
 ) -> anyhow::Result<Vec<String>> {
     let secrets = get_secret_env_value(region, secret_name).await?;
 
@@ -23,9 +23,9 @@ pub async fn get_secret_env_values_from_keys(
     Ok(values)
 }
 
-pub async fn get_secret_env_value(
+pub async fn get_secret_env_value<'a>(
     region: &'static str,
-    secret_name: &str,
+    secret_name: &'a str,
 ) -> anyhow::Result<Value> {
     let region_provider = RegionProviderChain::default_provider().or_else(region);
     let config = aws_config::from_env().region(region_provider).load().await;
